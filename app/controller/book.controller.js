@@ -2,6 +2,7 @@ const db = require('../config/db.config.js');
 const Book = db.book;
 const User = db.user;
 const Swap = db.swap;
+const Meeting = db.meeting;
 
 const Op = db.Sequelize.Op;
 
@@ -82,11 +83,30 @@ exports.addBookAsSwiped = (req, res) => {
       let BookDetails = {};
       if(swapMatch.length>0 && swapMatch[0].BOOK_ID) {
         console.log('HDV MATCH FOUND!!!', swapMatch[0].BOOK_ID);
-        getBookDetails(swapMatch[0].BOOK_ID).then(
-          BookDetails => {
-             return res.status(200).json(BookDetails);
-          }
-        )
+        
+        // create the meeting initial record
+        const meetingDTO = {
+          MEETING_PARTY_ONE_USER:  req.body.BOOK_OWNER_ID,
+          MEETING_PARTY_ONE_BOOK_ID: swapMatch[0].BOOK_ID,
+          MEETING_PARTY_TWO_USER: req.userId,
+          MEETING_PARTY_TWO_BOOK_ID: req.body.BOOK_ID
+        };
+  
+        Meeting.create(meetingDTO).then(meetingInit => {
+         
+          console.log('HDV Match stage 2');
+          getBookDetails(swapMatch[0].BOOK_ID).then(
+            BookDetails => {
+              return res.status(200).json({
+                ...BookDetails,
+                meetingInit: meetingInit
+              });
+            }
+          )
+        }).catch(err => {
+          res.status(500).send("Fail! addBookAsSwiped Error -> " + err);
+        });
+        
       } else {
         res.status(200).json(swapMatch);
       }
