@@ -1,5 +1,6 @@
 const env = {
   dev: {
+    appPort: 3000,
     database: 'swapabook',
     username: 'root',
     password: 'root',
@@ -13,6 +14,7 @@ const env = {
     }
   },
   prod: {
+    appPort: 80,
     database: 'heroku_684809c9a95a506',
     username: 'b0c33f114586b4',
     password: '64591451',
