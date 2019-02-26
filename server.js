@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+const env = require('./app/config/env.js');
+
 app.use(bodyParser.json())
  
 require('./app/router/router.js')(app);
@@ -21,7 +23,8 @@ const force = true;
 //require('./app/route/project.route.js')(app);
  
 // Create a Server
-var server = app.listen(3000, function () {
+const port = env.appPort;
+var server = app.listen(port, function () {
  
   var host = server.address().address
   var port = server.address().port
