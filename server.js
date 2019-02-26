@@ -23,7 +23,7 @@ const force = true;
 //require('./app/route/project.route.js')(app);
  
 // Create a Server
-const port = env.appPort;
+const port = process.env.PORT || 3000;
 var server = app.listen(port, function () {
  
   var host = server.address().address
