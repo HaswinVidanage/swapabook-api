@@ -87,9 +87,9 @@ exports.addBookAsSwiped = (req, res) => {
         // create the meeting initial record
         const meetingDTO = {
           MEETING_PARTY_ONE_USER:  req.body.BOOK_OWNER_ID,
-          MEETING_PARTY_ONE_BOOK_ID: swapMatch[0].BOOK_ID,
+          MEETING_PARTY_ONE_BOOK_ID: req.body.BOOK_ID,
           MEETING_PARTY_TWO_USER: req.userId,
-          MEETING_PARTY_TWO_BOOK_ID: req.body.BOOK_ID
+          MEETING_PARTY_TWO_BOOK_ID: swapMatch[0].BOOK_ID
         };
   
         Meeting.create(meetingDTO).then(meetingInit => {
