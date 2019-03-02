@@ -30,8 +30,12 @@ module.exports = (sequelize, Sequelize) => {
         key: 'id',
       }
     },
-    location: { type: Sequelize.STRING },
-    datetime: { type: Sequelize.STRING },
+    
+    location_name: { type: Sequelize.STRING },
+    location_lat: { type: Sequelize.STRING },
+    location_lng: { type: Sequelize.STRING },
+    location_icon: { type: Sequelize.STRING },
+    selectedDateTime: { type: Sequelize.DATE},
     isAccepted: { type: Sequelize.STRING}
   });
   
