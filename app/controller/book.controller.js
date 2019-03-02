@@ -50,7 +50,7 @@ exports.addBookToCollection = (req, res) => {
   Book.create(bookDTO).then(book => {
     res.status(200).json(book);
   }).catch(err => {
-    res.status(500).send("Fail! Error -> " + err);
+    res.status(500).json({msg: err});
   })
 };
 
