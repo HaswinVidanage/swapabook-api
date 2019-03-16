@@ -23,8 +23,10 @@ module.exports = function(app) {
   app.get('/api/book/swapList/',[authJwt.verifyToken], bookController.getSwapList);
   app.post('/api/book/addSwipeRight', [authJwt.verifyToken], bookController.addBookAsSwiped);
   app.post('/api/swap/meetup', [authJwt.verifyToken], meetupController.addMeetupDetails);
+  app.get('/api/meetup/myApprovedOrPendingMeetings/', [authJwt.verifyToken], meetupController.myApprovedOrPendingMeetings);
+  app.get('/api/meetup/getApprovalPendingOrPendingMeetupsForMe/', [authJwt.verifyToken], meetupController.getApprovalPendingOrPendingMeetupsForMe);
+  
   // app.post('/api/swap/meetup/accept', [authJwt.verifyToken], meetupController.acceptMeetup);
   // app.get('/api/swap/meetup/pending', [authJwt.verifyToken], meetupController.getApprovalPendingMeetups);
   // app.get('/api/swap/meetup/allMeetups', [authJwt.verifyToken], meetupController.getAllMeetups);
-  
 };
