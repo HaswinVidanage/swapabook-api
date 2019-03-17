@@ -25,7 +25,7 @@ module.exports = function(app) {
   app.post('/api/swap/meetup', [authJwt.verifyToken], meetupController.addMeetupDetails);
   app.get('/api/meetup/myApprovedOrPendingMeetings/', [authJwt.verifyToken], meetupController.myApprovedOrPendingMeetings);
   app.get('/api/meetup/getApprovalPendingOrPendingMeetupsForMe/', [authJwt.verifyToken], meetupController.getApprovalPendingOrPendingMeetupsForMe);
-  
+  app.post('/api/meetup/acceptMeetup/', [authJwt.verifyToken], meetupController.acceptMeetup);
   // app.post('/api/swap/meetup/accept', [authJwt.verifyToken], meetupController.acceptMeetup);
   // app.get('/api/swap/meetup/pending', [authJwt.verifyToken], meetupController.getApprovalPendingMeetups);
   // app.get('/api/swap/meetup/allMeetups', [authJwt.verifyToken], meetupController.getAllMeetups);

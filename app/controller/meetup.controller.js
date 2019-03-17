@@ -34,27 +34,21 @@ exports.addMeetupDetails = (req, res) => {
 };
 
 exports.acceptMeetup = (req, res) => {
-  // Save User to Database
-  console.log("Processing func -> addBookAsSwiped");
-  const {
-    id
-  } = req.body;
+  // Accept Meetup
+  console.log("Processing func -> acceptMeetup");
   
-  const swapDTO = {
-    id,
-    isAccepted: req.userId
-  };
-  
-  Swap.update(
-    swapDTO,
+  Meeting.update(
+    {
+      isAccepted:1
+    },
     {
       where: {
-        id: req.byod.id,
+        id: req.body.meetingId,
       }
     }
-  ).then(swap => {
-    console.log('Swap meeting accepted by: ', req.userId);
-    res.status(200).json(swap);
+  ).then(Meeting => {
+    console.log('Meeting accepted by: ', req.userId);
+    res.status(200).json(Meeting);
   }).catch(err => {
     res.status(500).send("Fail! Error -> " + err);
   });
@@ -82,7 +76,37 @@ exports.myApprovedOrPendingMeetings = (req, res) => {
   //   res.status(500).send("Fail! Error -> " + err);
   // });
   db.sequelize.query(
-    `SELECT distinct * FROM
+    `SELECT
+    meetings.id as id,
+    meetings.MEETING_PARTY_ONE_USER,
+    meetings.MEETING_PARTY_ONE_BOOK_ID,
+    meetings.MEETING_PARTY_TWO_USER,
+    meetings.MEETING_PARTY_TWO_BOOK_ID,
+    meetings.location_name,
+    meetings.location_lat,
+    meetings.location_lng,
+    meetings.location_icon,
+    meetings.selectedDateTime,
+    meetings.isAccepted,
+    meetings.createdAt,
+    meetings.updatedAt,
+    books.title,
+    books.subTitle,
+    books.publisher,
+    books.publishedDate,
+    books.description,
+    books.author,
+    books.pageCount,
+    books.category,
+    books.smallThumbnail,
+    books.thumbnail,
+    books.language,
+    books.webReaderLink,
+    books.bookQualityRating,
+    books.createdAt,
+    books.updatedAt,
+    books.userId
+    FROM
     meetings
     inner join books
     on meetings.MEETING_PARTY_TWO_BOOK_ID = books.id
@@ -104,7 +128,37 @@ exports.getApprovalPendingOrPendingMeetupsForMe = (req, res) => {
   //selecting meetings to with location set by me already approved or pending for another person to approve
   
   db.sequelize.query(
-    `SELECT * FROM
+    `SELECT
+    meetings.id as id,
+    meetings.MEETING_PARTY_ONE_USER,
+    meetings.MEETING_PARTY_ONE_BOOK_ID,
+    meetings.MEETING_PARTY_TWO_USER,
+    meetings.MEETING_PARTY_TWO_BOOK_ID,
+    meetings.location_name,
+    meetings.location_lat,
+    meetings.location_lng,
+    meetings.location_icon,
+    meetings.selectedDateTime,
+    meetings.isAccepted,
+    meetings.createdAt,
+    meetings.updatedAt,
+    books.title,
+    books.subTitle,
+    books.publisher,
+    books.publishedDate,
+    books.description,
+    books.author,
+    books.pageCount,
+    books.category,
+    books.smallThumbnail,
+    books.thumbnail,
+    books.language,
+    books.webReaderLink,
+    books.bookQualityRating,
+    books.createdAt,
+    books.updatedAt,
+    books.userId
+    FROM
     meetings
     inner join books
     on meetings.MEETING_PARTY_ONE_BOOK_ID = books.id
