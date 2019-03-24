@@ -27,7 +27,6 @@ db.meeting = require('../model/meeting.model')(sequelize,Sequelize);
 
 db.role.belongsToMany(db.user, { through: 'user_roles', foreignKey: 'roleId', otherKey: 'userId'});
 db.user.belongsToMany(db.role, { through: 'user_roles', foreignKey: 'userId', otherKey: 'roleId'});
-
 db.book.belongsTo(db.user);
 db.user.hasMany(db.book);
 

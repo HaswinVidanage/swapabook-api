@@ -64,6 +64,19 @@ exports.signin = (req, res) => {
 	});
 }
 
+exports.user = (req, res) => {
+  User.findOne({
+    where: {id: req.userId}
+  }).then(user => {
+    res.status(200).json(user);
+}).catch(err => {
+    res.status(500).json({
+    "description": "Can not access User Page",
+    "error": err
+  });
+})
+}
+
 exports.userContent = (req, res) => {
 	User.findOne({
 		where: {id: req.userId},

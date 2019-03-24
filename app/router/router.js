@@ -18,13 +18,17 @@ module.exports = function(app) {
 	app.get('/api/test/admin', [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
 	
 	// book details and collection
+  app.get('/api/user/', [authJwt.verifyToken], controller.user)
+  app.post('/api/book/redeem', [authJwt.verifyToken], bookController.redeemBookScore);
 	app.post('/api/book/add', [authJwt.verifyToken], bookController.addBookToCollection);
 	app.get('/api/book/collection/',[authJwt.verifyToken], bookController.getCollectionByUserId);
   app.get('/api/book/swapList/',[authJwt.verifyToken], bookController.getSwapList);
   app.post('/api/book/addSwipeRight', [authJwt.verifyToken], bookController.addBookAsSwiped);
   app.post('/api/swap/meetup', [authJwt.verifyToken], meetupController.addMeetupDetails);
+  app.get('/api/meetup/myApprovedOrPendingMeetings/', [authJwt.verifyToken], meetupController.myApprovedOrPendingMeetings);
+  app.get('/api/meetup/getApprovalPendingOrPendingMeetupsForMe/', [authJwt.verifyToken], meetupController.getApprovalPendingOrPendingMeetupsForMe);
+  app.post('/api/meetup/acceptMeetup/', [authJwt.verifyToken], meetupController.acceptMeetup);
   // app.post('/api/swap/meetup/accept', [authJwt.verifyToken], meetupController.acceptMeetup);
   // app.get('/api/swap/meetup/pending', [authJwt.verifyToken], meetupController.getApprovalPendingMeetups);
   // app.get('/api/swap/meetup/allMeetups', [authJwt.verifyToken], meetupController.getAllMeetups);
-  
 };

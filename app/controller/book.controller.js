@@ -6,6 +6,56 @@ const Meeting = db.meeting;
 
 const Op = db.Sequelize.Op;
 
+// redeemBookScore
+exports.redeemBookScore = (req, res) => {
+  // Save User to Database
+  console.log("Processing func -> redeemBookScore");
+  //selecting meetings to be approved by me or already approved by me
+ 
+  db.sequelize.query(
+    `
+    select
+    ISBN_13,
+    users.id as userId,
+     COALESCE(books.pageCount, 100) + 100 AS pageCount
+    from
+    books
+    inner join users on books.userId = users.id
+    where books.ISBN_13 = ${req.body.ISBN_13} LIMIT 1;;
+    `,{ type: db.sequelize.QueryTypes.SELECT }).then( rows =>{
+      
+      if(rows.length > 0) {
+        console.log('HDV rows > 0 ', rows[0].pageCount, req.userId);
+        
+        const newScore = rows[0].pageCount;
+        // update user score
+        User.update(
+          {
+            score: rows[0].pageCount
+          },
+          {
+            where: {
+              id: req.userId,
+            }
+          }
+        ).then(user => {
+          console.log('User Score Updated : ', user);
+          res.status(200).json({userId: req.userId});
+        }).catch(err => {
+            res.status(500).send("Fail! Error -> " + err);
+        });
+      } else {
+        console.log('HDV ROWS < 0');
+        res.status(200).json({})
+      }
+        // res.status(200).json(rows);
+        // console.log('Meeting Party One User: ', req.userId);
+    }).catch(err => {
+        res.status(500).send("Fail! Error -> " + err);
+    });
+
+};
+
 // add a book to the collection
 exports.addBookToCollection = (req, res) => {
   // Save User to Database
