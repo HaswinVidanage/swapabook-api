@@ -18,6 +18,8 @@ module.exports = function(app) {
 	app.get('/api/test/admin', [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
 	
 	// book details and collection
+  app.get('/api/user/', [authJwt.verifyToken], controller.user)
+  app.post('/api/book/redeem', [authJwt.verifyToken], bookController.redeemBookScore);
 	app.post('/api/book/add', [authJwt.verifyToken], bookController.addBookToCollection);
 	app.get('/api/book/collection/',[authJwt.verifyToken], bookController.getCollectionByUserId);
   app.get('/api/book/swapList/',[authJwt.verifyToken], bookController.getSwapList);
